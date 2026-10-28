@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { Registry, evaluateRegistry } from '../../evaluate.js';
+import { evaluateRegistry, Registry } from '../../evaluate.js';
 
 const registry = new Registry();
 registry.addDefaults();

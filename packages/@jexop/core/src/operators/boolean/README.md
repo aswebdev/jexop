@@ -1,5 +1,7 @@
 # Boolean Operators
 
+`and`, `nand`, `or` and `nor` short-circuit: when `values` is an array, its items are evaluated in order, and evaluation stops as soon as the result is known.
+
 ## `not`, `!`
 
 Returns the logical `not` of the value.
@@ -22,17 +24,15 @@ Examples
 // returns false
 {
   "op": "!",
-  "values": [
-    {
-      "op": "=",
-      "a": 100,
-      "b": {
-        "op": "plus",
-        "a": 1,
-        "b": 99
-      }
+  "value": {
+    "op": "=",
+    "a": 100,
+    "b": {
+      "op": "plus",
+      "a": 1,
+      "b": 99
     }
-  ]
+  }
 }
 ```
 

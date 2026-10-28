@@ -21,7 +21,16 @@ afterAll(() => {
 describe('bounds', () => {
   test('startOfNowOperator returns the start of the provided unit', () => {
     const now = DateTime.now();
-    const units = ['hour', 'day', 'week', 'month', 'year'] as const;
+    const units = [
+      'second',
+      'minute',
+      'hour',
+      'day',
+      'week',
+      'month',
+      'quarter',
+      'year',
+    ] as const;
     for (const unit of units) {
       expect(startOfNowOperator({ unit })?.toMillis()).toBe(
         now.startOf(unit).toMillis(),
@@ -31,7 +40,16 @@ describe('bounds', () => {
 
   test('endOfNowOperator returns the end of the provided unit', () => {
     const now = DateTime.now();
-    const units = ['hour', 'day', 'week', 'month', 'year'] as const;
+    const units = [
+      'second',
+      'minute',
+      'hour',
+      'day',
+      'week',
+      'month',
+      'quarter',
+      'year',
+    ] as const;
     for (const unit of units) {
       expect(endOfNowOperator({ unit })?.toMillis()).toBe(
         now.endOf(unit).toMillis(),
@@ -49,7 +67,41 @@ describe('bounds', () => {
   });
 
   test('operators return null for invalid units', () => {
-    expect(startOfNowOperator({ unit: 'quarter' })).toBeNull();
+    expect(startOfNowOperator({ unit: 'fortnight' })).toBeNull();
+    expect(startOfNowOperator({ unit: '' })).toBeNull();
     expect(endOfNowOperator({ unit: 3 })).toBeNull();
+    expect(endOfNowOperator({})).toBeNull();
+  });
+
+  test('operators use the given date instead of now', () => {
+    expect(
+      startOfNowOperator({
+        unit: 'month',
+        date: '2024-02-15T10:30:00Z',
+      })?.toISO(),
+    ).toBe('2024-02-01T00:00:00.000Z');
+    expect(
+      endOfNowOperator({
+        unit: 'quarter',
+        date: '2024-02-15T10:30:00Z',
+      })?.toISO(),
+    ).toBe('2024-03-31T23:59:59.999Z');
+    expect(
+      startOfNowOperator({
+        unit: 'day',
+        date: DateTime.fromISO('2024-02-15T10:30:00Z').toMillis(),
+      })?.toISO(),
+    ).toBe('2024-02-15T00:00:00.000Z');
+  });
+
+  test('operators accept unit names case-insensitively', () => {
+    expect(startOfNowOperator({ unit: ' Day ' })?.toMillis()).toBe(
+      DateTime.now().startOf('day').toMillis(),
+    );
+  });
+
+  test('operators return null for an invalid date', () => {
+    expect(startOfNowOperator({ unit: 'day', date: 'not a date' })).toBeNull();
+    expect(endOfNowOperator({ unit: 'day', date: [] })).toBeNull();
   });
 });

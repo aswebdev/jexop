@@ -1,5 +1,40 @@
 # @jexop/date-time
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [1211bcf]
+  - @jexop/core@1.1.3
+
+## 1.2.3
+
+### Patch Changes
+
+- dfa2b07: Read me
+
+## 1.2.2
+
+### Patch Changes
+
+- ebc15f4: Publishing
+- Updated dependencies [ebc15f4]
+  - @jexop/core@1.1.2
+
+## 1.2.1
+
+### Patch Changes
+
+- fe433ed: Docs and repo information
+- Updated dependencies [fe433ed]
+  - @jexop/core@1.1.1
+
+## 1.2.0
+
+### Minor Changes
+
+- 0bc125d: Addition of date bounds operators
+
 ## 1.1.0
 
 ### Minor Changes

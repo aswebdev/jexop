@@ -1,6 +1,6 @@
 import { operators as defaultOperators } from './operators/index.js';
 import type { Operator } from './types.js';
-import { isPrimitive } from './utils.js';
+import { isLazy, isPrimitive } from './utils.js';
 
 export class Registry extends Map<string, Operator> {
   public static from(
@@ -19,14 +19,24 @@ export class Registry extends Map<string, Operator> {
   }
 
   public add(operators: Record<string, Operator>): void {
-    Object.entries(operators).forEach(([key, value]) => this.set(key, value));
+    for (const [key, value] of Object.entries(operators)) {
+      this.set(key, value);
+    }
   }
 
   public addDefaults(): void {
     this.add(defaultOperators);
   }
+
+  public evaluate(expression: unknown, context: object): unknown {
+    return evaluateRegistry(this, expression, context);
+  }
 }
 
+/**
+ * Shared registry used by `evaluate`. It starts empty: call `registry.addDefaults()`
+ * (and/or `registry.add(...)`) before evaluating expressions with it.
+ */
 export const registry = new Registry();
 
 export const evaluate = (expression: unknown, context: object): unknown =>
@@ -98,13 +108,21 @@ export const evaluateRegistry = (
     // implicit literal - operator not supported
     if (!fn) return expression;
 
-    const evaluatedArgs = Object.entries(args).reduce(
-      (acc, entry) => ({
-        ...acc,
-        [entry[0]]: evaluateRegistry(registry, entry[1], context),
-      }),
-      {},
-    );
-    return fn(evaluatedArgs, context);
+    if (isLazy(fn)) {
+      return (
+        fn(args, context, (expr, ctx = context) =>
+          evaluateRegistry(registry, expr, ctx),
+        ) ?? null
+      );
+    }
+
+    const evaluatedArgs: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(args)) {
+      evaluatedArgs[key] = evaluateRegistry(registry, value, context);
+    }
+    return fn(evaluatedArgs, context) ?? null;
   }
+
+  // unsupported value types (functions, symbols, bigints)
+  return null;
 };

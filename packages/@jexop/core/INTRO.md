@@ -13,6 +13,10 @@ import { evaluate, registry } from '@jexop/core';
 registry.addDefaults();
 ```
 
+> **Note:** the shared `registry` starts **empty**. Until you call `registry.addDefaults()` (or add operators with `registry.add(...)` / `registry.set(...)`), no operators are registered, and every expression is returned unchanged, as an implicit literal. For example, `evaluate({ op: 'add', a: 1, b: 2 }, {})` returns the expression object itself rather than `3`.
+>
+> `Registry.from()` creates a separate registry that already includes the default operators.
+
 Now you can construct an expression as a JSON object. Here's an example:
 
 ```typescript
@@ -67,7 +71,7 @@ You can also add multiple custom operators at once using the `add` function:
 
 ```typescript
 registry.add({
-  'is': ({ a, b }, ctx) => a === b,
+  is: ({ a, b }, ctx) => a === b,
   "isn't": ({ a, b }, ctx) => a !== b,
 });
 ```
@@ -80,8 +84,56 @@ const expression = {
   a: 45,
   b: 17,
 };
-const result = evaluate(expression); // result will be false
+const result = evaluate(expression, {}); // result will be false
 ```
+
+### Non-singleton Usage
+
+If you need isolated registries — for example, in tests or when running multiple independent configurations — you can instantiate `Registry` directly instead of using the shared singleton:
+
+```typescript
+import { Registry } from '@jexop/core';
+
+const registry = new Registry();
+registry.addDefaults();
+
+// optionally add custom operators
+registry.set('is', ({ a, b }) => a === b);
+
+const result = registry.evaluate(expression, context);
+```
+
+`Registry.from(operators?, { addDefaults? })` is a shorthand that creates a registry with the default operators (unless `addDefaults` is `false`) plus any extra operators you pass in:
+
+```typescript
+const registry = Registry.from({ is: ({ a, b }) => a === b });
+```
+
+### Lazy Operators
+
+Normally every property of an operator is evaluated before the operator is called. A _lazy_ operator receives its properties **unevaluated**, along with an `evaluate` function, so it can choose which properties to evaluate. The built-in `if`, `switch`, `and`, `or`, `nand` and `nor` operators work this way, so they only evaluate the branches or values they need.
+
+```typescript
+import { lazy } from '@jexop/core';
+
+registry.set(
+  'first-defined',
+  lazy(({ values }, context, evaluate = (value) => value) => {
+    if (!Array.isArray(values)) return null;
+    for (const value of values) {
+      const result = evaluate(value);
+      if (result !== null && result !== undefined) return result;
+    }
+    return null;
+  }),
+);
+```
+
+`evaluate(expression, context?)` evaluates a sub-expression in the current context, or in the context you pass. Use the `evaluate = (value) => value` default shown above so the operator still works when it is called directly with values that are already evaluated.
+
+### Return Values
+
+Operators return `null` when their input is invalid or nothing matches. `evaluate` also returns `null` (never `undefined`) when an operator returns `undefined`, or when the expression is a value that can't be represented in JSON (a function, symbol or bigint).
 
 ## Operators
 

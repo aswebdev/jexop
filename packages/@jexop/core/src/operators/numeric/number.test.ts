@@ -25,8 +25,12 @@ describe('numeric', () => {
       expect(numberOperator({ value: undefined, default: 99 })).toBe(99);
       expect(numberOperator({ value: null, default: 99 })).toBe(99);
       expect(numberOperator({ value: Number.NaN, default: 99 })).toBe(99);
-      expect(numberOperator({ value: Number.POSITIVE_INFINITY, default: 99 })).toBe(99);
-      expect(numberOperator({ value: Number.NEGATIVE_INFINITY, default: 99 })).toBe(99);
+      expect(
+        numberOperator({ value: Number.POSITIVE_INFINITY, default: 99 }),
+      ).toBe(99);
+      expect(
+        numberOperator({ value: Number.NEGATIVE_INFINITY, default: 99 }),
+      ).toBe(99);
     });
   });
 });

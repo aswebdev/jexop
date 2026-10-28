@@ -1,8 +1,4 @@
 {
-  "extends": "@geee-be/create/tsconfig.node.json",
-  "compilerOptions": {
-    "declaration": false,
-    "outDir": "./dist"
-  },
+  "extends": "../../../tsconfig.base.json",
   "include": ["./src"]
 }

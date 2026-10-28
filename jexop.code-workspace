@@ -19,22 +19,12 @@
   ],
   "settings": {
     "editor.codeActionsOnSave": {
-      "source.fixAll": "explicit",
-      "source.organizeImports": "explicit"
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
     },
     "editor.formatOnSave": true,
     "editor.tabSize": 2,
-    "eslint.codeAction.disableRuleComment": {
-      "enable": true,
-      "location": "separateLine"
-    },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "[typescript]": {
-      "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[typescriptreact]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
+    "editor.defaultFormatter": "biomejs.biome",
     "files.associations": {},
     "files.exclude": {
       "**/.DS_Store": true,

@@ -1,5 +1,5 @@
-import { colorRangeOperator } from './color-range.js';
 import { colorAlphaOperator } from './color-alpha.js';
+import { colorRangeOperator } from './color-range.js';
 
 export const colorOperators = {
   'color-alpha': colorAlphaOperator,

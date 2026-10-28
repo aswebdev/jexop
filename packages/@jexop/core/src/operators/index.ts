@@ -1,4 +1,4 @@
-import { type Operator } from '../types.js';
+import type { Operator } from '../types.js';
 import { booleanOperators } from './boolean/index.js';
 import { branchOperators } from './branch/index.js';
 import { equalityOperators } from './equality/index.js';

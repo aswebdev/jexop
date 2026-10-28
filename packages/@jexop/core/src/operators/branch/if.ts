@@ -1,3 +1,10 @@
-import { type Operator } from '../../types.js';
+import { lazy } from '../../utils.js';
 
-export const ifOperator: Operator = ({ condition, then, else: fallback }) => (condition ? then : fallback);
+// only the branch that is taken gets evaluated
+export const ifOperator = lazy(
+  (
+    { condition, then, else: fallback },
+    _context,
+    evaluate = (value) => value,
+  ) => evaluate(evaluate(condition) ? then : fallback) ?? null,
+);

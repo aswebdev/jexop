@@ -1,5 +1,4 @@
 {
-  "exclude": [
-    "**/dist/"
-  ]
+  "files": [],
+  "exclude": ["**/dist/"]
 }

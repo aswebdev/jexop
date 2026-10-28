@@ -1,5 +1,23 @@
 # @jexop/core
 
+## 1.1.3
+
+### Patch Changes
+
+- 1211bcf: Non-singleton use
+
+## 1.1.2
+
+### Patch Changes
+
+- ebc15f4: Publishing
+
+## 1.1.1
+
+### Patch Changes
+
+- fe433ed: Docs and repo information
+
 ## 1.1.0
 
 ### Minor Changes
