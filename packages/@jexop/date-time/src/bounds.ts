@@ -1,11 +1,15 @@
 import type { Operator } from '@jexop/core';
 import { DateTime, type DateTimeUnit } from 'luxon';
+import { toDateTime } from './utils.js';
 
 const allowedUnits = new Set<DateTimeUnit>([
+  'second',
+  'minute',
   'hour',
   'day',
   'week',
   'month',
+  'quarter',
   'year',
 ]);
 
@@ -22,14 +26,18 @@ const normalizeUnit = (value: unknown): DateTimeUnit | null => {
 
 const boundaryOperator =
   (mode: 'start' | 'end'): Operator<DateTime> =>
-  ({ unit }) => {
+  ({ unit, date }) => {
     const normalizedUnit = normalizeUnit(unit);
     if (!normalizedUnit) return null;
 
-    const now = DateTime.now();
+    // defaults to now when no `date` is given
+    const base =
+      date === undefined || date === null ? DateTime.now() : toDateTime(date);
+    if (!base) return null;
+
     return mode === 'start'
-      ? now.startOf(normalizedUnit)
-      : now.endOf(normalizedUnit);
+      ? base.startOf(normalizedUnit)
+      : base.endOf(normalizedUnit);
   };
 
 export const startOfNowOperator = boundaryOperator('start');
