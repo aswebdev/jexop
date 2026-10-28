@@ -1,5 +1,18 @@
 # @jexop/date-time
 
+## 1.3.0
+
+### Minor Changes
+
+- 53af415: `start-of` and `end-of` take an optional `date` (defaults to now), and support the `second`, `minute` and `quarter` units.
+- a807f00: Fix packaging: the CommonJS build is now real CommonJS, type declarations are published from `dist/types` (instead of pointing at the TypeScript sources), only `dist` is published, and `main` points to the CommonJS build. AMD and UMD builds have been removed. `@jexop/color` now uses `chroma-js` v3.
+
+### Patch Changes
+
+- Updated dependencies [a807f00]
+- Updated dependencies [a807f00]
+  - @jexop/core@1.2.0
+
 ## 1.2.4
 
 ### Patch Changes
