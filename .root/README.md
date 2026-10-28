@@ -1,1 +1,1 @@
-../.changeset/README.md
+../README.md
