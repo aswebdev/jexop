@@ -1,4 +1,4 @@
-import { type Operator } from '../../types.js';
+import type { Operator } from '../../types.js';
 import { toNumber } from '../../utils.js';
 
 export const comparisonOperator =

@@ -1,30 +1,34 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "defaultBranch": "master",
+    "useIgnoreFile": true
+  },
   "files": {
-    "ignore": [
-      "node_modules/**",
-      "**/node_modules/**",
-      "pnpm-lock.yaml"
+    "includes": [
+      "**",
+      "!**/pnpm-lock.yaml",
+      "!.changeset/*.md",
+      "!**/CHANGELOG.md"
     ]
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "indentWidth": 2
   },
   "javascript": {
     "formatter": {
       "arrowParentheses": "always",
-      "indentStyle": "space",
-      "jsxQuoteStyle": "double",
       "quoteStyle": "single"
-    },
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
     }
   },
   "linter": {
     "enabled": true,
     "rules": {
+      "preset": "recommended",
       "complexity": {
         "noForEach": "off"
       },
@@ -34,17 +38,26 @@
       },
       "performance": {
         "noAccumulatingSpread": "off"
-      },
-      "recommended": true
+      }
     }
   },
-  "organizeImports": {
-    "enabled": false
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
-  "vcs": {
-    "clientKind": "git",
-    "defaultBranch": "master",
-    "enabled": true,
-    "useIgnoreFile": true
-  }
+  "overrides": [
+    {
+      "includes": ["packages/@jexop/core/src/operators/branch/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noThenProperty": "off"
+          }
+        }
+      }
+    }
+  ]
 }

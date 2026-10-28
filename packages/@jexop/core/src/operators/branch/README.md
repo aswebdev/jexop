@@ -8,7 +8,7 @@
 | `then`      | Returned if condition is truthy |
 | `else`      | Returned if condition is falsey |
 
-NOTE: both `then` and `else` are evaluated no matter what the condition is.
+Only the branch that is taken is evaluated. Returns `null` if that branch is missing.
 
 ## `switch`
 
@@ -17,6 +17,8 @@ NOTE: both `then` and `else` are evaluated no matter what the condition is.
 | `expr`     | Input value (string) to match against keys in `options` |
 | `options`  | Key-value dictionary/object                             |
 | `fallback` | Returned if no `options` match `expr`                   |
+
+Only the matching option (or the `fallback`) is evaluated. Only the options object's own keys are matched, so `expr` values such as `"constructor"` or `"toString"` won't match inherited properties. Returns `null` if nothing matches and there is no `fallback`.
 
 Examples
 

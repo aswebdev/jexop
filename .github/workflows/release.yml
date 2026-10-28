@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: 24.x
 
+      # pnpm version comes from `packageManager` in package.json
       - uses: pnpm/action-setup@v6
         with:
-          version: 10.33.3
           run_install: |
-            - args: [--no-frozen-lockfile]
+            - args: [--frozen-lockfile]
 
       - name: Lint packages
         shell: bash

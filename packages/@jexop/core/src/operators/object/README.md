@@ -187,9 +187,9 @@ Examples
 
 ## `object:transform`
 
-| Property | Description                                                                 |
-| -------- | --------------------------------------------------------------------------- |
-| `object` | Object whose entries (key-value pairs) will be transformed                   |
+| Property | Description                                                                     |
+| -------- | ------------------------------------------------------------------------------- |
+| `object` | Object whose entries (key-value pairs) will be transformed                      |
 | `to`     | Object to evaluate for each entry, with additional `key` and `value` in context |
 
 ### Behavior

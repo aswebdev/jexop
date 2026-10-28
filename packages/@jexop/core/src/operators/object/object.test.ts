@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Registry, evaluateRegistry } from '../../evaluate.js';
+import { evaluateRegistry, Registry } from '../../evaluate.js';
 
 const registry = new Registry();
 registry.addDefaults();
@@ -41,7 +41,14 @@ describe('object:transform operator', () => {
     const expr = {
       op: 'object:transform',
       object: { a: 1, b: 2 },
-      to: { op: 'literal', value: { op: 'add', left: { op: 'literal', value: 10 }, right: { op: 'literal', value: 5 } } },
+      to: {
+        op: 'literal',
+        value: {
+          op: 'add',
+          left: { op: 'literal', value: 10 },
+          right: { op: 'literal', value: 5 },
+        },
+      },
     };
     // This test is illustrative; actual add operator must exist in registry
     // For now, just check that the structure is preserved
@@ -51,9 +58,27 @@ describe('object:transform operator', () => {
   });
 
   it('returns null if object is not valid', () => {
-    expect(evaluateRegistry(registry, { op: 'object:transform', object: null, to: {} }, {})).toBeNull();
-    expect(evaluateRegistry(registry,{ op: 'object:transform', object: 123, to: {} }, {})).toBeNull();
-    expect(evaluateRegistry(registry,{ op: 'object:transform', object: [1,2], to: {} }, {})).toBeNull();
+    expect(
+      evaluateRegistry(
+        registry,
+        { op: 'object:transform', object: null, to: {} },
+        {},
+      ),
+    ).toBeNull();
+    expect(
+      evaluateRegistry(
+        registry,
+        { op: 'object:transform', object: 123, to: {} },
+        {},
+      ),
+    ).toBeNull();
+    expect(
+      evaluateRegistry(
+        registry,
+        { op: 'object:transform', object: [1, 2], to: {} },
+        {},
+      ),
+    ).toBeNull();
   });
 
   it('returns null if evaluated object is not valid', () => {
@@ -62,7 +87,7 @@ describe('object:transform operator', () => {
       object: { op: 'literal', value: null },
       to: {},
     };
-    expect(evaluateRegistry(registry,expr, {})).toBeNull();
+    expect(evaluateRegistry(registry, expr, {})).toBeNull();
   });
 
   it('transforms nested objects', () => {
@@ -71,6 +96,6 @@ describe('object:transform operator', () => {
       object: { x: { y: 1 } },
       to: { op: 'literal', value: 'nested' },
     };
-    expect(evaluateRegistry(registry,expr, {})).toEqual({ x: 'nested' });
+    expect(evaluateRegistry(registry, expr, {})).toEqual({ x: 'nested' });
   });
 });

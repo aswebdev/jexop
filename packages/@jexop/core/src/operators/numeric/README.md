@@ -120,7 +120,7 @@ Divides one number by another.
 | `a`      | Dividend    |
 | `b`      | Divisor     |
 
-Computes `a` ÷ `b`
+Computes `a` ÷ `b`. Returns `null` if either value is not numeric, or if `b` is `0`.
 
 Examples
 

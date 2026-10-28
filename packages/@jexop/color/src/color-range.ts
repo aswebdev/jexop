@@ -1,4 +1,4 @@
-import { isNumber, isString, toNumber, type Operator } from '@jexop/core';
+import { isNumber, isString, type Operator, toNumber } from '@jexop/core';
 import chroma from 'chroma-js';
 
 export const colorRangeOperator: Operator<string> = ({ from, to, value }) => {
